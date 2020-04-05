@@ -1,0 +1,26 @@
+{
+  "name": "eggs-benedict",
+  "version": "1.0.0",
+  "description": "eggs-benedict",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "webpack"
+  },
+  "dependencies": {
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devonChurch/eggs-benedict.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/devonChurch/eggs-benedict/issues"
+  },
+  "homepage": "https://github.com/devonChurch/eggs-benedict#readme"
+}
