@@ -7,6 +7,8 @@
     "start": "webpack"
   },
   "dependencies": {
+    "@types/react": "^16.9.32",
+    "react": "^16.13.1",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",

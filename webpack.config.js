@@ -1,5 +1,5 @@
-const path = require("path");
 const { NODE_ENV } = process.env;
+const path = require("path");
 const PRODUCTION = "production";
 const DEVELOPMENT = "development";
 const isProduction = NODE_ENV === PRODUCTION;
@@ -8,7 +8,9 @@ const distDir = path.resolve(__dirname, "dist");
 
 module.exports = {
   mode: isProduction ? PRODUCTION : DEVELOPMENT,
-  entry: "./src/index.ts",
+
+  entry: "./src/index.tsx",
+
   output: {
     path: distDir,
     filename: "index.js",
@@ -19,7 +21,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts)|(tsx)$/,
+        test: /\.(ts|tsx)$/,
         use: "ts-loader",
         include: srcDir,
       },
@@ -34,8 +36,7 @@ module.exports = {
 
   target: "web",
 
-  /** @todo */
-  // externals: ["react", /^@angular/],
+  externals: ["react"],
 
   watch: !isProduction,
 };
