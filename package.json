@@ -1,6 +1,6 @@
 {
   "name": "eggs-benedict",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "eggs-benedict",
   "main": "dist/index.js",
   "scripts": {
