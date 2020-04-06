@@ -36,7 +36,13 @@ module.exports = {
 
   target: "web",
 
-  externals: ["react"],
+  externals: {
+    react: {
+      root: "React",
+      commonjs: "react",
+      commonjs2: "react",
+    },
+  },
 
   watch: !isProduction,
 };

@@ -6,15 +6,19 @@
   "scripts": {
     "start": "webpack"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@types/react": "^16.9.32",
-    "react": "^16.13.1",
+    "react": "^16.9.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^16.9.32",
+    "react": "^16.9.0",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devonChurch/eggs-benedict.git"
