@@ -4,7 +4,7 @@
   "description": "eggs-benedict",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Warning: no test(s) specified\" && exit 0",
     "start": "NODE_ENV=\"development\" webpack",
     "build": "NODE_ENV=\"production\" webpack"
   },
