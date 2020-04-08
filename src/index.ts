@@ -1,7 +1,6 @@
 import {
   Args,
   Noop,
-  ActiveLoadControl,
   CreateLoadControl,
   CleanUpLoadControl,
   Options,
@@ -41,6 +40,10 @@ export const LoadControl = function <Callback extends Function>(
   const createDebounce = (...args: Args[]) => {
     debounceDate = getCurrentDate();
     debounceId = window.setTimeout(() => {
+      // We do not want to run a debounced callback if it's stale (by being older
+      // than the last run throttle callback). Here we check against the two "date"
+      // references for the debounce and throttle callbacks and ONLY run the debounce
+      // sequence if its NOT stale.
       if (!isDateStale(debounceDate, throttleDate)) {
         callback(...args);
       }
@@ -82,10 +85,12 @@ export const LoadControl = function <Callback extends Function>(
           callback(...args);
           removeThrottle();
         };
+        // If a setTimeout has a value of `0` it will move the callback to run on
+        // the "next tick". This is not what we want in this scenario as we want
+        // the RAF to trigger ASAP!
         if (throttleDelay) {
           setTimeout(throttleCallBack, throttleDelay);
         } else {
-          // Do not use zero as it adds another "next tick".
           throttleCallBack();
         }
       });

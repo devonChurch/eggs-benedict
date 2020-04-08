@@ -1,13 +1,6 @@
 import * as React from "react";
 import { LoadControl } from "./index";
-import {
-  Args,
-  Noop,
-  ActiveLoadControl,
-  CreateLoadControl,
-  CleanUpLoadControl,
-  Options,
-} from "./types";
+import { ActiveLoadControl, Options } from "./types";
 
 export const useLoadControl = function <Callback extends Function>(
   callback: Callback,
