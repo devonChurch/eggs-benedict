@@ -9,11 +9,14 @@ const distDir = path.resolve(__dirname, "dist");
 module.exports = {
   mode: isProduction ? PRODUCTION : DEVELOPMENT,
 
-  entry: "./src/index.tsx",
+  entry: {
+    index: "./src/index.ts",
+    hooks: "./src/hooks.tsx",
+  },
 
   output: {
     path: distDir,
-    filename: "index.js",
+    filename: "[name].js",
     library: "eggs-benedict",
     libraryTarget: "umd",
   },

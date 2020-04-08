@@ -1,17 +1,31 @@
-import * as React from "react";
+import {
+  Args,
+  Noop,
+  ActiveLoadControl,
+  CreateLoadControl,
+  CleanUpLoadControl,
+  Options,
+} from "./types";
 
-type Args = any;
-type Noop = () => void;
-type ActiveLoadControl = (...args: Args[]) => void;
-type CreateLoadControl = () => ActiveLoadControl;
-type CleanUpLoadControl = () => void;
+const THROTTLE_MILLISECONDS = 0;
+const DEBOUNCE_MILLISECONDS = 100;
+
+const getCurrentDate = Date.now;
+const isDateStale = (date1 = 0, date2 = 0) => date1 < date2;
 
 export const LoadControl = function <Callback extends Function>(
-  callback: Callback
+  callback: Callback,
+  {
+    throttleDelay = THROTTLE_MILLISECONDS,
+    debounceDelay = DEBOUNCE_MILLISECONDS,
+  }: Options
 ): [CreateLoadControl, CleanUpLoadControl] {
-  // Throttler - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  //
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - Throttler - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   let throttleId: number;
+  let throttleDate: number;
   const createThrottle = (action: Noop) => {
+    throttleDate = getCurrentDate();
     throttleId = window.requestAnimationFrame(action);
   };
   const removeThrottle = () => {
@@ -20,16 +34,25 @@ export const LoadControl = function <Callback extends Function>(
   };
   const checkIsThrottling = () => Boolean(throttleId);
 
-  // Debouncer - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  //
-  const DEBOUNCE_MILLISECONDS = 100;
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - Debouncer - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   let debounceId: number;
-  const createDebounce = (...args: Args[]) =>
-    (debounceId = window.setTimeout(
-      () => callback(...args),
-      DEBOUNCE_MILLISECONDS
-    ));
-  const removeDebounce = () => window.clearTimeout(debounceId);
+  let debounceDate: number;
+  const createDebounce = (...args: Args[]) => {
+    debounceDate = getCurrentDate();
+    debounceId = window.setTimeout(() => {
+      if (!isDateStale(debounceDate, throttleDate)) {
+        callback(...args);
+      }
+    }, debounceDelay + throttleDelay);
+  };
+  const removeDebounce = () => {
+    window.clearTimeout(debounceId);
+    debounceId = undefined;
+  };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - Load Control  - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Depending on the current "load controlled" situation we want to begin a
   // throttle sequence or defer the callback to a debounced scenario.
   const createLoadControl = () => (...args: Args[]) => {
@@ -38,7 +61,7 @@ export const LoadControl = function <Callback extends Function>(
       // throttle finishes but misses the final user input then we could potential
       // have the <input /> and <Swatch /> UI out of sync. In this case we create
       // a debounced, which will wait a period of time then run the supplied callback.
-      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // We do not want to stack callbacks and have them ALL run once their timeout
       // expires. We ONLY care about the last supplied callback. In that regard,
       // we destroy the preceding debounced setup and create a new one. This keep
@@ -50,13 +73,21 @@ export const LoadControl = function <Callback extends Function>(
       // If there is NO throttler instance then this is a "fresh" call to "load
       // control". Here we run the callback inside of a requestAnimationCall so
       // that its run when the browser has the capability to do so.
-      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // We ONLY want to run ONE callback per CPU cycle. In that regard we STOP
       // callbacks from stacking by creating and removing the RAF reference so
       // that ONLY one is running at a time BEFORE and AFTER the callback runs.
       createThrottle(() => {
-        callback(...args);
-        removeThrottle();
+        const throttleCallBack = () => {
+          callback(...args);
+          removeThrottle();
+        };
+        if (throttleDelay) {
+          setTimeout(throttleCallBack, throttleDelay);
+        } else {
+          // Do not use zero as it adds another "next tick".
+          throttleCallBack();
+        }
       });
     }
   };
@@ -67,23 +98,4 @@ export const LoadControl = function <Callback extends Function>(
   };
 
   return [createLoadControl, cleanUpLoadControl];
-};
-
-export const useLoadControl = function <Callback extends Function>(
-  callback: Callback
-): ActiveLoadControl | Callback {
-  const loadControl = React.useRef<ActiveLoadControl | undefined>();
-
-  React.useEffect(() => {
-    const [createLoadControl, cleanUpLoadControl] = LoadControl<Callback>(
-      callback
-    );
-    loadControl.current = createLoadControl();
-    return cleanUpLoadControl;
-  }, []);
-
-  // If the useEffect system has not been setup yet (happens in the first tick(s))
-  // then we just fall back to the vanilla callback until the "load control"
-  // enrichment is complete.
-  return loadControl.current || callback;
 };
