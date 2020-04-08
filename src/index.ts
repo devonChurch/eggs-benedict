@@ -14,15 +14,13 @@ const isDateStale = (date1 = 0, date2 = 0) => date1 < date2;
 
 export const LoadControl = function <Callback extends Function>(
   callback: Callback,
-  {
-    throttleDelay = THROTTLE_MILLISECONDS,
-    debounceDelay = DEBOUNCE_MILLISECONDS,
-  }: Options
+  options: Options
 ): [CreateLoadControl, CleanUpLoadControl] {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // - - Throttler - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   let throttleId: number;
   let throttleDate: number;
+  const throttleDelay = options?.throttleDelay ?? THROTTLE_MILLISECONDS;
   const createThrottle = (action: Noop) => {
     throttleDate = getCurrentDate();
     throttleId = window.requestAnimationFrame(action);
@@ -37,6 +35,7 @@ export const LoadControl = function <Callback extends Function>(
   // - - Debouncer - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   let debounceId: number;
   let debounceDate: number;
+  const debounceDelay = options?.debounceDelay ?? DEBOUNCE_MILLISECONDS;
   const createDebounce = (...args: Args[]) => {
     debounceDate = getCurrentDate();
     debounceId = window.setTimeout(() => {
