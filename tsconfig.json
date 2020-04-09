@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": ".",
     "sourceMap": true,
+    "declaration": true,
     "noImplicitAny": true,
     "module": "es6",
     "target": "es5",
     "jsx": "react",
     "allowJs": false
-  }
+  },
+  "exclude": []
 }

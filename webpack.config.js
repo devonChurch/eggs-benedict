@@ -4,7 +4,7 @@ const PRODUCTION = "production";
 const DEVELOPMENT = "development";
 const isProduction = NODE_ENV === PRODUCTION;
 const srcDir = path.resolve(__dirname, "src");
-const distDir = path.resolve(__dirname);
+const rootDir = path.resolve(__dirname);
 
 module.exports = {
   mode: isProduction ? PRODUCTION : DEVELOPMENT,
@@ -15,7 +15,7 @@ module.exports = {
   },
 
   output: {
-    path: distDir,
+    path: rootDir,
     filename: "[name].js",
     library: "eggs-benedict",
     libraryTarget: "umd",
