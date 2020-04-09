@@ -4,7 +4,7 @@ const PRODUCTION = "production";
 const DEVELOPMENT = "development";
 const isProduction = NODE_ENV === PRODUCTION;
 const srcDir = path.resolve(__dirname, "src");
-const distDir = path.resolve(__dirname, "dist");
+const distDir = path.resolve(__dirname);
 
 module.exports = {
   mode: isProduction ? PRODUCTION : DEVELOPMENT,

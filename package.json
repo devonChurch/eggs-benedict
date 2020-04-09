@@ -2,7 +2,7 @@
   "name": "eggs-benedict",
   "version": "2.0.0",
   "description": "eggs-benedict",
-  "main": "dist/",
+  "main": "/",
   "scripts": {
     "test": "echo \"Warning: no test(s) specified\" && exit 0",
     "start": "NODE_ENV=\"development\" webpack",
