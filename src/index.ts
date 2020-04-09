@@ -1,7 +1,7 @@
 import {
   Args,
   Noop,
-  CreateLoadControl,
+  ActiveLoadControl,
   CleanUpLoadControl,
   Options,
 } from "./types";
@@ -15,7 +15,7 @@ const isDateStale = (date1 = 0, date2 = 0) => date1 < date2;
 export const LoadControl = function <Callback extends Function>(
   callback: Callback,
   options: Options
-): [CreateLoadControl, CleanUpLoadControl] {
+): [ActiveLoadControl, CleanUpLoadControl] {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // - - Throttler - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   let throttleId: number;
@@ -57,7 +57,7 @@ export const LoadControl = function <Callback extends Function>(
   // - - Load Control  - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Depending on the current "load controlled" situation we want to begin a
   // throttle sequence or defer the callback to a debounced scenario.
-  const createLoadControl = () => (...args: Args[]) => {
+  const activeLoadControl = (...args: Args[]) => {
     if (checkIsThrottling()) {
       // If we are already throttling - the callback is STILL IMPORTANT. If the
       // throttle finishes but misses the final user input then we could potential
@@ -101,5 +101,5 @@ export const LoadControl = function <Callback extends Function>(
     removeDebounce();
   };
 
-  return [createLoadControl, cleanUpLoadControl];
+  return [activeLoadControl, cleanUpLoadControl];
 };

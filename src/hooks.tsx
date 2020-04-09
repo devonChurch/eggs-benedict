@@ -9,11 +9,11 @@ export const useLoadControl = function <Callback extends Function>(
   const loadControl = React.useRef<ActiveLoadControl | undefined>();
 
   React.useEffect(() => {
-    const [createLoadControl, cleanUpLoadControl] = LoadControl<Callback>(
+    const [activeLoadControl, cleanUpLoadControl] = LoadControl<Callback>(
       callback,
       options
     );
-    loadControl.current = createLoadControl();
+    loadControl.current = activeLoadControl;
     return cleanUpLoadControl;
   }, []);
 
