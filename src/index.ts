@@ -14,7 +14,7 @@ const isDateStale = (date1 = 0, date2 = 0) => date1 < date2;
 
 const LoadControl = function <Callback extends Function>(
   callback: Callback,
-  options: Options
+  options?: Options
 ): [ActiveLoadControl, CleanUpLoadControl] {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // - - Throttler - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

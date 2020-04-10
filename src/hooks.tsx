@@ -4,7 +4,7 @@ import { ActiveLoadControl, Options } from "./types";
 
 export const useLoadControl = function <Callback extends Function>(
   callback: Callback,
-  options: Options
+  options?: Options
 ): ActiveLoadControl | Callback {
   const loadControl = React.useRef<ActiveLoadControl | undefined>();
 
