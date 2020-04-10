@@ -1,5 +1,5 @@
 import * as React from "react";
-import { LoadControl } from "./index";
+import LoadControl from "./index";
 import { ActiveLoadControl, Options } from "./types";
 
 export const useLoadControl = function <Callback extends Function>(

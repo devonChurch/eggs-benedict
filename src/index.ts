@@ -12,7 +12,7 @@ const DEBOUNCE_MILLISECONDS = 100;
 const getCurrentDate = Date.now;
 const isDateStale = (date1 = 0, date2 = 0) => date1 < date2;
 
-export const LoadControl = function <Callback extends Function>(
+const LoadControl = function <Callback extends Function>(
   callback: Callback,
   options: Options
 ): [ActiveLoadControl, CleanUpLoadControl] {
@@ -103,3 +103,5 @@ export const LoadControl = function <Callback extends Function>(
 
   return [activeLoadControl, cleanUpLoadControl];
 };
+
+export default LoadControl;
