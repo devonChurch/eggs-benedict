@@ -2,23 +2,23 @@
 
 ## What 👋
 
-A simple utility that limits the impact of functions the demand high CPU load.
+A simple utility that limits the impact of functions the demand **high CPU** load.
 
 ## Why 🤷‍♀️
 
 Functionality that demands intense CPU load can create a poor user experience as their session can hang and become unresponsive.
 
-There are _**throttle**_ and _**debounce**_ solutions that help to alleviate the repercussions of CPU intensive UI. _Eggs Benedict_ incorporates these methodologies into a light weight _**React**_ and _**Vanilla JS**_ abstraction.
+There are _**throttle**_ and _**debounce**_ solutions that help to alleviate the repercussions of CPU intensive UI. _Eggs Benedict_ incorporates these methodologies into a lightweight _**React**_ and _**Vanilla JS**_ abstraction.
 
 ---
 
-_Eggs Benedict_ was original designed to help with the various complex calculations associated with the [Avocado](https://github.com/devonChurch/avocado) application. The library has since been enhanced into a simple developer API that can yield some powerful results.
+_Eggs Benedict_ was originally designed to help with the various complex calculations associated with the [Avocado application](https://github.com/devonChurch/avocado). The library has since been enhanced into a simple developer API that can yield powerful results.
 
 ![Avocado demo](https://user-images.githubusercontent.com/15273233/70855526-15556d00-1f31-11ea-839c-3c4a284a59ca.gif)
 
 ## How 💡
 
-This library uses [Request Animation Frame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) to implement _**throttle**_ and _**debounce**_ solutions simultaneously. This provides the real time updates of a _throttler_ while ensuring that the UI does not fall out of sync with a _debouncer_.
+This library uses [Request Animation Frame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) to implement _**throttle**_ and _**debounce**_ solutions simultaneously. This provides the real-time updates of a _throttler_ while ensuring that the UI does not fall out of sync with a _debouncer_.
 
 ![Eggs Benedict Flow](https://user-images.githubusercontent.com/15273233/78968151-05a10a80-7b58-11ea-997d-83581fe360ec.png)
 
@@ -39,7 +39,29 @@ Take a look at the [interactive CodeSandbox](https://codesandbox.io/s/eager-torv
 
 ## Typescript 👌
 
-_...TBC_
+You can reference the _Eggs Benedict_ types directly in your application.
+
+```javascript
+import { Options } from "eggs-benedict/types";
+```
+
+You can also supply a typed callback as a generic to the _**React Hooks**_ and _Vanilla JS_ initializers.
+
+### React Hooks
+
+```typescript
+// prettier-ignore
+const setLoadControlValue =
+  useLoadControl<(value: string) => void>(callback);
+```
+
+### Vanilla JS
+
+```typescript
+// prettier-ignore
+const [activeLoadControl, cleanUpLoadControl] =
+  LoadControl<(value: string) => void>(callback);
+```
 
 ## Examples 📝
 
@@ -80,7 +102,7 @@ export default function App() {
 
 ```javascript
 import React from "react";
-import { LoadControl } from "eggs-benedict";
+import LoadControl from "eggs-benedict";
 
 export default function App() {
   const [scroll, setScroll] = React.useState(0);
@@ -99,7 +121,7 @@ export default function App() {
     window.addEventListener("scroll", scrollLoadControl);
 
     /**
-     * Remember to remove the Eggs Benedict instance when unxmounting your
+     * Remember to remove the Eggs Benedict instance when unmounting your
      * <Component /> 👍
      */
     return cleanUpScrollLoadControl;
