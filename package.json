@@ -2,7 +2,7 @@
   "name": "eggs-benedict",
   "version": "4.0.0",
   "description": "A simple utility that limits the impact of functions the demand high CPU load",
-  "main": "/",
+  "main": "/index.js",
   "scripts": {
     "test": "echo \"Warning: no test(s) specified\" && exit 0",
     "start": "NODE_ENV=\"development\" webpack",
