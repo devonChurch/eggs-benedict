@@ -1,7 +1,7 @@
 {
   "name": "eggs-benedict",
-  "version": "3.0.1",
-  "description": "eggs-benedict",
+  "version": "4.0.0",
+  "description": "A simple utility that limits the impact of functions the demand high CPU load",
   "main": "/",
   "scripts": {
     "test": "echo \"Warning: no test(s) specified\" && exit 0",
@@ -25,10 +25,19 @@
     "type": "git",
     "url": "git+https://github.com/devonChurch/eggs-benedict.git"
   },
-  "author": "",
+  "author": "Devon Church https://devon.church",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/devonChurch/eggs-benedict/issues"
   },
-  "homepage": "https://github.com/devonChurch/eggs-benedict#readme"
+  "homepage": "https://github.com/devonChurch/eggs-benedict#readme",
+  "keywords": [
+    "utility",
+    "throttle",
+    "debounce",
+    "react",
+    "performance",
+    "optimize",
+    "callback"
+  ]
 }
